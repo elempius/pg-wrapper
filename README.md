@@ -7,7 +7,11 @@ recent query activity and duration.
 
 ## Installation
 
-1. Drop this folder into your `resources/` directory.
+1. Download the latest release zip from the
+   [Releases page](https://github.com/elempius/pg-wrapper/releases) and
+   extract the `pg-wrapper` folder into your `resources/` directory. It
+   already contains the built `dist/server.js` / `dist/client.js` — no
+   build step needed.
 2. Add to `server.cfg`:
 
    ```
@@ -15,9 +19,9 @@ recent query activity and duration.
    ensure pg-wrapper
    ```
 
-No build step is required — `dist/server.js` and `dist/client.js` are
-pre-bundled and committed. If you're modifying the source, see
-[Development](#development) below.
+Cloning `main` directly instead of using a release? `dist/` isn't committed
+to the repo (it's build output) — see [Development](#development) to build
+it yourself first.
 
 ## Convars
 
