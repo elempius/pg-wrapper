@@ -3,7 +3,7 @@ game 'common'
 
 author 'elempius'
 description 'PostgreSQL connector/wrapper exposing query/scalar/execute/transaction exports'
-version '0.1.0'
+version '0.1.1'
 
 server_script 'dist/server.js'
 client_script 'dist/client.js'
