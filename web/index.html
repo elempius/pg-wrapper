@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>pg-wrapper query stats</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="backdrop">
+        <div class="panel">
+            <div class="panel__header">
+                <div>
+                    <div class="panel__title">Query Stats</div>
+                    <div class="panel__subtitle">pg-wrapper &middot; most recent first</div>
+                </div>
+                <button class="icon-btn" id="close-btn" title="Close">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="panel__body" id="body">
+                <div class="status-bar" id="status-bar"></div>
+                <div class="status-legend" id="status-legend"></div>
+
+                <table class="query-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 90px">Time</th>
+                            <th style="width: 120px">Resource</th>
+                            <th style="width: 80px">Duration</th>
+                            <th>Query</th>
+                        </tr>
+                    </thead>
+                    <tbody id="query-rows"></tbody>
+                </table>
+                <div class="empty-state" id="empty-state" style="display: none">No queries recorded yet.</div>
+            </div>
+
+            <div class="panel__footer">
+                <button class="icon-btn" id="refresh-btn" title="Refresh">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path
+                            d="M13 8A5 5 0 1 1 11.6 4.4M13 2V5H10"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </button>
+                <div class="footer__note">Debug mode &middot; visible to admins only</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
