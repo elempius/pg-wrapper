@@ -1,5 +1,5 @@
 import type { PoolClient, QueryResult, QueryResultRow } from 'pg';
-import { getPool } from './pool';
+import { getPool, reportQueryError } from './pool';
 import { resolveParams } from './params';
 import { record as recordMetric } from './metrics';
 
@@ -27,6 +27,7 @@ async function timed<T>(label: string, fn: () => Promise<T>): Promise<T> {
         return await fn();
     } catch (err) {
         status = 'error';
+        reportQueryError(err);
         const message = err instanceof Error ? err.message : String(err);
         throw new Error(`pg-wrapper: query from resource "${caller}" failed: ${message}.`);
     } finally {
@@ -41,7 +42,7 @@ async function timed<T>(label: string, fn: () => Promise<T>): Promise<T> {
         });
 
         if (duration >= slowQueryThresholdMs()) {
-            console.warn(`[pg-wrapper] slow query (${duration}ms) from resource "${caller}": ${label}.`);
+            console.warn(`slow query (${duration}ms) from resource "${caller}": ${label}.`);
         }
     }
 }
@@ -108,7 +109,15 @@ export async function batch(statements: BatchStatement[]): Promise<number[]> {
 
 export async function transaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
     const pool = await getPool();
-    const client = await pool.connect();
+
+    let client: PoolClient;
+
+    try {
+        client = await pool.connect();
+    } catch (err) {
+        reportQueryError(err);
+        throw err;
+    }
 
     try {
         await client.query('BEGIN');
@@ -116,7 +125,14 @@ export async function transaction<T>(fn: (client: PoolClient) => Promise<T>): Pr
         await client.query('COMMIT');
         return result;
     } catch (err) {
-        await client.query('ROLLBACK');
+        reportQueryError(err);
+
+        try {
+            await client.query('ROLLBACK');
+        } catch {
+            // the connection is likely already dead; the original error is what matters
+        }
+
         throw err;
     } finally {
         client.release();

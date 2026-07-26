@@ -1,6 +1,6 @@
 {
     "name": "pg-wrapper",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "PostgreSQL connector/wrapper resource for FXServer (FiveM/RedM), with named parameters, transactions, and an in-game query stats overlay.",
     "license": "MIT",
     "repository": {

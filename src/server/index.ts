@@ -112,12 +112,10 @@ onNet('pg-wrapper:requestStats', () => {
 
 on('onResourceStop', (resourceName: string) => {
     if (GetCurrentResourceName() === resourceName) {
-        shutdown().catch((err) => console.error(`[pg-wrapper] error during shutdown: ${toError(err).message}.`));
+        shutdown().catch((err) => console.error(`error during shutdown: ${toError(err).message}.`));
     }
 });
 
-whenReady().catch((err) =>
-    console.error(`[pg-wrapper] initial connection failed permanently: ${toError(err).message}.`),
-);
+whenReady().catch((err) => console.error(`initial connection failed permanently: ${toError(err).message}.`));
 
-console.log('[pg-wrapper] starting, connecting to PostgreSQL...');
+console.log('starting, connecting to PostgreSQL...');
