@@ -1,7 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["node", "@citizenfx/server"]
-  },
-  "include": ["src/server"]
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "types": ["node", "@citizenfx/server"]
+    },
+    "include": ["src/server"]
 }

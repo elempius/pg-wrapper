@@ -20,10 +20,7 @@ function withCallback<T>(promise: Promise<T>, cb?: Callback<T>): Promise<T> | vo
 }
 
 /** Normalizes the common `(params?, cb?)` trailing-argument pattern used by every query export. */
-function splitParamsAndCallback(
-    maybeParams: unknown,
-    maybeCb: unknown,
-): { params: Params; cb?: Callback<unknown> } {
+function splitParamsAndCallback(maybeParams: unknown, maybeCb: unknown): { params: Params; cb?: Callback<unknown> } {
     if (typeof maybeParams === 'function') {
         return { params: [], cb: maybeParams as Callback<unknown> };
     }
@@ -33,7 +30,10 @@ function splitParamsAndCallback(
 
 exports('query', (text: string, maybeParams?: unknown, maybeCb?: unknown) => {
     const { params, cb } = splitParamsAndCallback(maybeParams, maybeCb);
-    return withCallback(query(text, params).then((result) => result.rows), cb);
+    return withCallback(
+        query(text, params).then((result) => result.rows),
+        cb,
+    );
 });
 
 exports('scalar', (text: string, maybeParams?: unknown, maybeCb?: unknown) => {
@@ -81,14 +81,16 @@ function canViewStats(playerSrc: number): boolean {
     return IsPlayerAceAllowed(String(playerSrc), 'command.pgstats');
 }
 
-// `restricted: true` makes FXServer check the `command.pgstats` ACE before this
-// handler ever runs - only players/principals granted that command (e.g. via
-// `add_ace group.admin command allow`) can trigger the overlay.
+// `restricted: true` enforces the `command.pgstats` ACE before the handler runs.
 RegisterCommand(
     'pgstats',
     (playerSrc: number) => {
         if (!debugEnabled()) {
-            emitNet('pg-wrapper:disabled', playerSrc, 'pg-wrapper debug mode is disabled. Set pg_debug "true" in server.cfg to enable the query stats overlay.');
+            emitNet(
+                'pg-wrapper:disabled',
+                playerSrc,
+                'pg-wrapper debug mode is disabled. Set pg_debug "true" in server.cfg to enable the query stats overlay.',
+            );
             return;
         }
 
@@ -114,6 +116,8 @@ on('onResourceStop', (resourceName: string) => {
     }
 });
 
-whenReady().catch((err) => console.error(`[pg-wrapper] initial connection failed permanently: ${toError(err).message}.`));
+whenReady().catch((err) =>
+    console.error(`[pg-wrapper] initial connection failed permanently: ${toError(err).message}.`),
+);
 
 console.log('[pg-wrapper] starting, connecting to PostgreSQL...');

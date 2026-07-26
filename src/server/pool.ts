@@ -22,8 +22,7 @@ function poolMax(): number {
     return raw > 0 ? raw : 10;
 }
 
-/** Caps how long a single query may run before Postgres cancels it, so one bad
- * query can't hold a connection (and starve the pool) indefinitely. */
+/** Caps how long a query may run before Postgres cancels it, so one bad query can't starve the pool. */
 function statementTimeoutMs(): number {
     const raw = GetConvarInt('pg_statementTimeoutMs', 30000);
     return raw > 0 ? raw : 30000;
@@ -70,9 +69,7 @@ async function connectWithRetry(): Promise<void> {
 
             try {
                 await pool?.end();
-            } catch {
-                // ignore
-            }
+            } catch {}
 
             pool = undefined;
 

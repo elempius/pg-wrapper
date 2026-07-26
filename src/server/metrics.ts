@@ -57,10 +57,8 @@ export function getStats(): Stats {
         else errorCount += 1;
     }
 
-    // Most recent first. `history` is append-only (oldest evicted from the
-    // front), so the last N entries are simply the N most recent calls -
-    // sorting by duration instead would let a stale burst of slow queries
-    // (e.g. a big benchmark run) bury genuinely recent activity out of view.
+    // Most recent first, not sorted by duration - a stale burst of slow
+    // queries would otherwise bury genuinely recent activity out of view.
     const recent = history.slice(-100).reverse();
 
     return {

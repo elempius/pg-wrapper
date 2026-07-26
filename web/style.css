@@ -20,7 +20,11 @@ body {
     margin: 0;
     height: 100%;
     background: transparent;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family:
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        sans-serif;
     color: var(--text-primary);
     user-select: none;
 }
@@ -203,7 +207,7 @@ table.query-table {
 
 .query-table td.sql {
     color: var(--text-primary);
-    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
 }
 
 .sql-wrap {
@@ -233,7 +237,9 @@ table.query-table {
     justify-content: center;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.1s ease, color 0.1s ease;
+    transition:
+        opacity 0.1s ease,
+        color 0.1s ease;
 }
 
 .query-table tr:hover .copy-btn {
