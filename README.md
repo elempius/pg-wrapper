@@ -17,7 +17,7 @@ an in-game query stats overlay (`/pgstats`).
    ensure pg-wrapper
    ```
 
-(Cloning `main` instead of a release? `dist/` isn't committed — run `npm install && npm run build` first.)
+Cloning `main` instead of a release? `dist/` isn't committed, so run `npm install && npm run build` first.
 
 ## Convars
 
@@ -60,7 +60,7 @@ const rows = await exports['pg-wrapper'].query('SELECT * FROM players WHERE id =
 | `tableExists(table)` / `columns(table)` | schema info |
 | `isReady()` / `ready()` | connection state |
 
-Always bind values as params, never concatenate — raw query text (not bound
+Always bind values as params, never concatenate. Raw query text (not bound
 values) is visible in `/pgstats` and slow-query logs.
 
 ## Stats overlay
@@ -84,4 +84,4 @@ npm install && npm run typecheck && npm run build
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).
